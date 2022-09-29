@@ -22,13 +22,27 @@ export function Home() {
       navigate("/login");
     } catch (error) {
       console.error(error);
-    }
-  }
+    };
+    const User = ({ user }) => {
+      return (
+        <div className='user_wrapper'>
+          <div className='user_info'>
+            <div className='user_detail'>
+             <h4>{user.name}</h4>
+            </div>
+            <div
+            className={`user_status ${user.isOnline ? "online" : "offline"}`}>
+            </div>
+          </div>
+        </div>
+      );
+    };
+  };
     useEffect( () => {
       const usersRef = collection(db, 'users')
       //creamos el objeto query
       const q= query(usersRef, where('uid','not-in',[user.uid])) 
-      //excecute query
+      //ejecutar el query
       const unsub = onSnapshot(q, querySnapshot =>{
         let lstusers= [];
         querySnapshot.forEach(doc => {
@@ -39,17 +53,19 @@ export function Home() {
       return () => unsub();
     },[user.uid])
   
-  console.log(users);
+  console.log(user);
   if (loading) return <h1>loading</h1>
 
 
-  return <div>
+  return (
+  <div>
     <div>
-      {users.map(user => <User key={user.uid} user={user}/>)}     
+      <h1>{users.map(user => <User key={user.uid} user={user.email}/>)}</h1>     
     </div>
 
     <button onClick={handleLogout}>
       logout
     </button>
   </div>
+  )
 }

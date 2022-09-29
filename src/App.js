@@ -6,7 +6,7 @@ import { Register } from "./containers/Register";
 import {AuthProvider} from "./context/authContext";
 function App(){
   return(
-    <div className="bg-slate-300 h-screen text-black flex">
+    <div>
     <AuthProvider>
       <Routes>
       <Route path="/" element={ 

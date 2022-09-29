@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../context/authContext"
 import { Link, useNavigate } from "react-router-dom";
 import { Alert } from "./Alert";
-import { doc, setDoc, Timestamp } from "firebase/firestore";
+import { doc, setDoc, updateDoc, Timestamp } from "firebase/firestore";
 import { db } from "../firebase";
 
 export function Login() {
@@ -23,7 +23,10 @@ export function Login() {
     setError('')
     try {
 
-      await login(user.email, user.password)
+      const result = await login(user.email, user.password);
+      await updateDoc(doc(db,"users",result.user.uid),{
+        isOnline:true,
+      })
       navigate('/')
     } catch (error) {
       setError(error.message);
@@ -100,7 +103,7 @@ export function Login() {
         font-bold text-sm text-blue-500 hover:text-blue-00"
         onClick={handleResetPassword}>
           ¿Olvidaste tu contraseña?
-        </a>
+        </a> 
         
        </div>
 
