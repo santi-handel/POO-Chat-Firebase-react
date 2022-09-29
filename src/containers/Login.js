@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useAuth } from "../context/authContext"
 import { Link, useNavigate } from "react-router-dom";
 import { Alert } from "./Alert";
-import { async } from "@firebase/util";
+import { doc, setDoc, Timestamp } from "firebase/firestore";
+import { db } from "../firebase";
 
 export function Login() {
   const [user, setUser] = useState({
@@ -31,7 +32,13 @@ export function Login() {
 
   const handleGoogleSingin = async () => {
     try {
-      await loginWithGoogle();
+      const resultGoogle = await loginWithGoogle();
+      await setDoc(doc(db,"users",resultGoogle.user.uid),{
+        uid:resultGoogle.user.uid,
+        email:resultGoogle.user.email,
+        createdAt:Timestamp.fromDate(new Date()),
+        isOnline:true,
+      })
       navigate("/");
     } catch (error) {
       setError(error.message);
