@@ -22,30 +22,20 @@ export function Home() {
       navigate("/login");
     } catch (error) {
       console.error(error);
-    }
-  }
-    useEffect( () => {
-      const usersRef = collection(db, 'users')
-      //creamos el objeto query
-      const q= query(usersRef, where('uid','not-in',[user.uid])) 
-      //excecute query
-      const unsub = onSnapshot(q, querySnapshot =>{
-        let lstusers= [];
-        querySnapshot.forEach(doc => {
-        lstusers.push(doc.data())
-        });
-        setUsers(lstusers);
-      });
-      return () => unsub();
-    },[user.uid])
-  
-  console.log(users);
-  if (loading) return <h1>loading</h1>
+    };
+  };
+ 
+  const [message, setMessage] = useState("");
 
+  if (loading) return <h1>loading</h1>
 
   return <div>
     <div>
-      {users.map(user => <User key={user.uid} user={user}/>)}     
+         <p>Escribe tu mensaje...</p>
+         <form>
+          <input value={message} onChange={(e)=>setMessage(e.target.value)}></input>
+          <button type="submit">Enviar Mensaje</button>
+         </form> 
     </div>
 
     <button onClick={handleLogout}>
