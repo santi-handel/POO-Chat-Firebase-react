@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/authContext";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { db } from "../firebase";
-import { collection, query, where, onSnapshot, updateDoc, doc } from "firebase/firestore";
-import { User } from "../components";
+import { doc,updateDoc } from "firebase/firestore";
+import { useChat } from "../components/useChat";
+
 
 export function Home() {
 
@@ -26,6 +27,14 @@ export function Home() {
   };
  
   const [message, setMessage] = useState("");
+  const onPress = (e) =>{
+    e.preventDefault();
+    db.collection("messages").add({
+      timestamp: Date.now(),
+      message
+    })
+  }
+  const { messages, error} = useChat();  
 
   if (loading) return <h1>loading</h1>
 
@@ -34,8 +43,11 @@ export function Home() {
          <p>Escribe tu mensaje...</p>
          <form>
           <input value={message} onChange={(e)=>setMessage(e.target.value)}></input>
-          <button type="submit">Enviar Mensaje</button>
+          <button type="submit" onPress={onPress}>Enviar Mensaje</button>
          </form> 
+         <ul>
+          {messages.map(m=> <li key={m.id}>{m.message}</li>)}
+         </ul>
     </div>
 
     <button onClick={handleLogout}>
