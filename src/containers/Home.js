@@ -6,8 +6,6 @@ export function Home() {
   const { user, logout, loading } = useAuth();
   const navigate = useNavigate()
 
-  console.log(user);
-
   const handleLogout = async () => {
     try {
       await logout();
