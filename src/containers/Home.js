@@ -3,13 +3,14 @@ import { useAuth } from "../context/authContext";
 import { useEffect, useState } from "react";
 import { db } from "../firebase";
 import { collection, query, where, onSnapshot, updateDoc, doc } from "firebase/firestore";
-import { User } from "../components";
+import User from "../components/User";
+
 
 export function Home() {
 
   const [users, setUsers] = useState([])
 
-  const { user, logout, loading } = useAuth();
+  const { user, logout, loading } = useAuth(); 
   const navigate = useNavigate();
   
 
@@ -22,20 +23,6 @@ export function Home() {
       navigate("/login");
     } catch (error) {
       console.error(error);
-    };
-    const User = ({ user }) => {
-      return (
-        <div className='user_wrapper'>
-          <div className='user_info'>
-            <div className='user_detail'>
-             <h4>{user.name}</h4>
-            </div>
-            <div
-            className={`user_status ${user.isOnline ? "online" : "offline"}`}>
-            </div>
-          </div>
-        </div>
-      );
     };
   };
     useEffect( () => {
@@ -60,7 +47,7 @@ export function Home() {
   return (
   <div>
     <div>
-      <h1>{users.map(user => <User key={user.uid} user={user.email}/>)}</h1>     
+      <h1>{users.map(user => <User key={user.uid} user={user}/>)}</h1>     
     </div>
 
     <button onClick={handleLogout}>
