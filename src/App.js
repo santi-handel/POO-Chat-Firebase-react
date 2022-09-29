@@ -1,8 +1,8 @@
 import {Routes, Route} from "react-router-dom"
-import { Home } from "./componentes/Home";
-import { Login } from "./componentes/Login";
-import { ProtectedRoute } from "./componentes/ProtectedRoute";
-import { Register } from "./componentes/Register";
+import { Home } from "./containers/Home";
+import { Login } from "./containers/Login";
+import { ProtectedRoute } from "./containers/ProtectedRoute";
+import { Register } from "./containers/Register";
 import {AuthProvider} from "./context/authContext";
 function App(){
   return(

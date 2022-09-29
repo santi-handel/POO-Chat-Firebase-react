@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { useAuth } from "../context/authContext"
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Alert } from "./Alert";
 
-export function Login() {
+export function Register() {
   const [user, setUser] = useState({
     email: '',
     password: '',
   });
-  const { login, loginWithGoogle } = useAuth()
+  const { signup } = useAuth()
   const navigate = useNavigate()
   const [error, setError] = useState()
 
@@ -21,17 +21,8 @@ export function Login() {
     setError('')
     try {
 
-      await login(user.email, user.password)
+      await signup(user.email, user.password)
       navigate('/')
-    } catch (error) {
-      setError(error.message);
-    }
-  };
-
-  const handleGoogleSingin = async () => {
-    try {
-      await loginWithGoogle();
-      navigate("/");
     } catch (error) {
       setError(error.message);
     }
@@ -41,7 +32,7 @@ export function Login() {
   return (
     <div className="w-fulll max-w-xs m-auto">
 
-      {error && <Alert message={error}/>}
+      {error && <Alert message={error} />}
 
       <form onSubmit={handleSubmit} className="bg-white shadow-md grounded px-8 
       pt-6 pb-8 mb-4">
@@ -75,15 +66,19 @@ export function Login() {
 
         <button className="bg-blue-500 hover:bg-blue-700 text-white
         font-bold py-4 px-4 rounded focus:outline-none
-        focus:shadow-outline text-sm">Login</button>
-
+        focus:shadow-outline text-sm">Register</button>
+       
+        
 
       </form>
 
-      <button onClick={handleGoogleSingin}
-      className="bg-slate-50 gover:bg-slate-200 text-black shadow-md
-      rounded border-2 border-gray-300 py-2 px-4 w-full"
-      >Google Login</button>
+      <p className="my-4 text-sm flex justify-between px-3">
+        ¿Ya tienes cuenta?
+        <Link to='/login' className="text-decoration-line: underline">
+          Logueate
+        </Link>
+      </p>
+
     </div>
   )
 
